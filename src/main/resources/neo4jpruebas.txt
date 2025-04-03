@@ -1,0 +1,34 @@
+MERGE (n:Clase {nombre: 'Aventurero' });
+MERGE (n:Clase {nombre: 'Mago' });
+MERGE (n:Clase {nombre: 'Curandero' });
+MERGE (n:Clase {nombre: 'Espia' });
+MERGE (n:Clase {nombre: 'Dios' });
+
+
+MATCH (ClaseInferior: Clase { nombre: 'Aventurero' })
+  MATCH (ClaseSuperior: Clase { nombre: 'Mago' })
+  MERGE (ClaseInferior)-[:Habilita { FUERZA: 0 , DESTREZA: 0 , CONSTITUCION: 0 , INTELIGENCIA: 0 }]->(ClaseSuperior);
+
+MATCH (ClaseInferior: Clase { nombre: 'Aventurero' })
+  MATCH (ClaseSuperior: Clase { nombre: 'Curandero' })
+  MERGE (ClaseInferior)-[:Habilita { FUERZA: 0 , DESTREZA: 0 , CONSTITUCION: 0 , INTELIGENCIA: 0 }]->(ClaseSuperior);
+
+MATCH (ClaseInferior: Clase { nombre: 'Mago' })
+  MATCH (ClaseSuperior: Clase { nombre: 'Espia' })
+  MERGE (ClaseInferior)-[:Habilita { FUERZA: 0 , DESTREZA: 0 , CONSTITUCION: 0 , INTELIGENCIA: 0 }]->(ClaseSuperior);
+
+MATCH (ClaseInferior: Clase { nombre: 'Mago' })
+  MATCH (ClaseSuperior: Clase { nombre: 'Dios' })
+  MERGE (ClaseInferior)-[:Habilita { FUERZA: 0 , DESTREZA: 0 , CONSTITUCION: 0 , INTELIGENCIA: 0 }]->(ClaseSuperior);
+
+MATCH (ClaseInferior: Clase { nombre: 'Curandero' })
+  MATCH (ClaseSuperior: Clase { nombre: 'Dios' })
+  MERGE (ClaseInferior)-[:Habilita { FUERZA: 0 , DESTREZA: 0 , CONSTITUCION: 0 , INTELIGENCIA: 0 }]->(ClaseSuperior);
+
+MATCH (ClaseAnterior: Clase {nombre: 'Mago'})
+ MATCH (ClaseConRequerimiento: Clase {nombre: 'Dios'}) WHERE NOT (ClaseConRequerimiento)-[:Requiere]->(ClaseAnterior)
+ MERGE (ClaseConRequerimiento)-[:Requiere]->(ClaseAnterior);
+
+MATCH (ClaseAnterior: Clase {nombre: 'Curandero'})
+ MATCH (ClaseConRequerimiento: Clase {nombre: 'Dios'}) WHERE NOT (ClaseConRequerimiento)-[:Requiere]->(ClaseAnterior)
+ MERGE (ClaseConRequerimiento)-[:Requiere]->(ClaseAnterior);
